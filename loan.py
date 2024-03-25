@@ -21,7 +21,7 @@ def get_value(val, my_dict):
         if val == key:
             return value
 
-app_mode = st.sidebar.selectbox('Select Page',['Home','Prediction', 'Initial Tests'])
+app_mode = st.sidebar.selectbox('Select Page',['Home','Prediction', 'Samples'])
 
 if app_mode=='Home':
     st.title('LOAN PREDICTION :')
@@ -33,7 +33,6 @@ if app_mode=='Home':
     st.bar_chart(data[['ApplicantIncome','LoanAmount']].head(20))
 
 elif app_mode == 'Prediction':
-    #st.image('slider-short-3.jpg')
     st.subheader(
         'Sir/Mme , YOU need to fill all necessary informations in order    to get a reply to your loan request !')
     st.sidebar.header("Informations about the client :")
@@ -138,7 +137,7 @@ elif app_mode == 'Prediction':
                 unsafe_allow_html=True,
             )
 
-elif app_mode == 'Test':
+elif app_mode == 'Samples':
 
     st.sidebar.title("This is written inside the sidebar")
     st.sidebar.button("Click Button in sidebar")
