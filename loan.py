@@ -21,13 +21,13 @@ def get_value(val, my_dict):
         if val == key:
             return value
 
-app_mode = st.sidebar.selectbox('Select Page',['Home','Prediction', 'Test'])
+app_mode = st.sidebar.selectbox('Select Page',['Home','Prediction', 'Initial Tests'])
 
 if app_mode=='Home':
     st.title('LOAN PREDICTION :')
     st.image('hipster_loan-1.jpg')
     st.markdown('Dataset :')
-    data=pd.read_csv('loan_dataset.csv')
+    data=pd.read_csv('test.csv')
     st.write(data.head())
     st.markdown('Applicant Income VS Loan Amount ')
     st.bar_chart(data[['ApplicantIncome','LoanAmount']].head(20))
@@ -53,6 +53,7 @@ elif app_mode == 'Prediction':
     Dependents = st.sidebar.radio('Dependents', options=['0', '1', '2', '3+'])
     Education = st.sidebar.radio('Education', tuple(edu.keys()))
     Property_Area = st.sidebar.radio('Property_Area', tuple(prop.keys()))
+
     class_0, class_3, class_1, class_2 = 0, 0, 0, 0
     if Dependents == '0':
         class_0 = 1
@@ -63,6 +64,7 @@ elif app_mode == 'Prediction':
     else:
         class_3 = 1
     Rural, Urban, Semiurban = 0, 0, 0
+
     if Property_Area == 'Urban':
         Urban = 1
     elif Property_Area == 'Semiurban':
@@ -86,18 +88,22 @@ elif app_mode == 'Prediction':
 
    # feature_list=[ApplicantIncome,CoapplicantIncome,LoanAmount,Loan_Amount_Term,Credit_History,get_value(Gender,gender_dict),get_fvalue(Married),data1['Dependents'][0],data1['Dependents'][1],data1['Dependents'][2],data1['Dependents'][3],get_value(Education,edu),get_fvalue(Self_Employed),data1['Property_Area'][0],data1['Property_Area'][1],data1['Property_Area'][2]]
 
-    feature_list = [get_fvalue(Married), \
-                    class_0, \
-                    get_value(Education, edu), \
-                    get_fvalue(Self_Employed), \
-                    LoanAmount, \
-                    Loan_Amount_Term, \
-                    Credit_History, \
-                    ApplicantIncome + CoapplicantIncome, \
-                    get_value(Gender, gender_dict), \
-                    Semiurban, \
-                    Urban
-                    ]
+    feature_list = [ApplicantIncome,
+                    CoapplicantIncome,
+                    LoanAmount,
+                    Loan_Amount_Term,
+                    Credit_History,
+                    get_value(Gender, gender_dict),
+                    get_fvalue(Married),
+                    data1['Dependents'][0],
+                    data1['Dependents'][1],
+                    data1['Dependents'][2],
+                    data1['Dependents'][3],
+                    get_value(Education, edu),
+                    get_fvalue(Self_Employed),
+                    data1['Property_Area'][0],
+                    data1['Property_Area'][1],
+                    data1['Property_Area'][2]]
 
     single_sample = np.array(feature_list).reshape(1,-1)
 
@@ -113,7 +119,7 @@ elif app_mode == 'Prediction':
         file.close()
 
         #loaded_model = pickle.load(open('Random_Forest.sav', 'rb'))
-        loaded_model = pickle.load(open('model.pkl', 'rb'))
+        loaded_model = pickle.load(open('rf.sav', 'rb'))
         prediction = loaded_model.predict(single_sample)
         print(prediction)
         if prediction[0] == 0:
