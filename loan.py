@@ -118,7 +118,7 @@ elif app_mode == 'Prediction':
         file.close()
 
         #loaded_model = pickle.load(open('Random_Forest.sav', 'rb'))
-        loaded_model = pickle.load(open('rf.sav', 'rb'))
+        loaded_model = pickle.load(open('RF.sav', 'rb'))
         prediction = loaded_model.predict(single_sample)
         print(prediction)
         if prediction[0] == 0:
